@@ -4,7 +4,7 @@
   "description": "",
   "main": "bind.js",
   "scripts": {
-    "test": "promises-aplus-tests ./promise/promise.js"
+    "test": "promises-aplus-tests ./src/promise/promise.js"
   },
   "author": "",
   "license": "ISC",
