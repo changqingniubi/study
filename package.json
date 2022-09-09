@@ -10,5 +10,9 @@
   "license": "ISC",
   "devDependencies": {
     "promises-aplus-tests": "^2.1.2"
+  },
+  "dependencies": {
+    "co": "^4.6.0",
+    "thunkify": "^2.1.2"
   }
 }
