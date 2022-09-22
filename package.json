@@ -13,6 +13,8 @@
   },
   "dependencies": {
     "co": "^4.6.0",
+    "core-js": "^3.23.3",
+    "js-csp": "^1.0.1",
     "thunkify": "^2.1.2"
   }
 }

@@ -1,28 +1,22 @@
-Function.prototype.my_bind = function() {
-  var self = this, // 保存原函数
-    context = Array.prototype.shift.call(arguments), // 保存需要绑定的this上下文
-    // 上一行等价于 context = [].shift.call(arguments);
-    args = Array.prototype.slice.call(arguments); // 剩余的参数转为数组
-  return function() { // 返回一个新函数
-    console.log(context,args,Array.prototype.slice.call(arguments));
-    return self.apply(context, Array.prototype.concat.call(args, Array.prototype.slice.call(arguments)));
+Function.prototype.myBind = function(...args) {
+  if(typeof this !== "function") {
+    throw new Error('Must call with a function');
+  }
+  const _func = this;    // 原方法
+  const realThis = args[0] || window;   // 绑定的this
+  const otherArgs = args.slice(1);    // 取出后面的参数作为新函数的默认参数
+
+  return function(...args2) {   // 返回一个方法
+    return _func.apply(realThis, [...otherArgs,...args2]);  // 拼接存储参数和新参数，然后用apply执行
   }
 }
 
-// function a(m, n, o) {
-// console.log(this.name + ' ' + m + ' ' + n + ' ' + o);
-// }
 
-// var b = {
-// name: 'kong'
-// };
-// a.my_bind(b, 7, 8)(9); // kong 7 8 9
-
-
-
-function fn(a,b,c){
-  return a+b+c;
+function a(m, n, o) {
+console.log(this.name + ' ' + m + ' ' + n + ' ' + o);
 }
-var _fn=fn.my_bind(null,10);
-var ans =_fn(20,30);
-console.log(ans);
+
+var b = {
+name: 'kong'
+};
+a.myBind(b, 7, 8)(9); // kong 7 8 9
