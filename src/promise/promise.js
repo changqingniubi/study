@@ -87,10 +87,10 @@ Promise.prototype.then = function(onFulfilled, onRejected) {
               var x =onFulfilled(_this.value);
               // 根据x的值修改promise2的状态
               resolvePromise(promise2, x, resolve, reject);
-          } catch (reason) {
-              reject(reason);
-          }
-        })
+            } catch (reason) {
+                reject(reason);
+            }
+          })
       })
       // onRejectedFail传入到失败时的回调函数集
       _this.onRejectedFn.push(function() {
@@ -122,6 +122,8 @@ function resolvePromise(promise2, x,resolve, reject) {
   //2.x 是 Promise 的实例
   //如果 x 处于待定状态，Promise 会继续等待直到 x 兑现或拒绝，否则根据 x 的状态兑现/拒绝 Promise。
   //我们需要调用 Promise 在构造时的函数 resolve() 和 reject() 来改变 Promise 的状态。
+  // 如果 x 为 Promise ，则使 promise 接受 x 的状态
+  // 也就是继续执行x，如果执行的时候拿到一个y，还要继续解析y
   if (x instanceof Promise) {
     if (x.state === FULFILLED) {
         resolve(x.value);
@@ -145,6 +147,9 @@ function resolvePromise(promise2, x,resolve, reject) {
         // 把 x.then 赋值给 then
         var then = x.then;
         // 如果then是函数，就默认是x是promise了
+        // 如果 resolvePromise 和 rejectPromise 均被调用，
+        // 或者被同一参数调用了多次，则优先采用首次调用并忽略剩下的调用
+        // 实现这条需要前面加一个变量executed;
         if (typeof then === 'function') {
             then.call(x, function(y) {
                 // 成功和失败只能调用一个
@@ -152,19 +157,22 @@ function resolvePromise(promise2, x,resolve, reject) {
                 executed = true;
                 // 如果 resolvePromise 以值 y 为参数被调用，则运行 [[Resolve]](promise, y)
                 return resolvePromise(promise2, y, resolve, reject);
-            }, function (r) {
+            }, function (r) {  // 如果 rejectPromise 以据因 r 为参数被调用，则以据因 r 拒绝 promise
                 if (executed) return;
                 executed = true;
                 // 如果 rejectPromise 以据因 r 为参数被调用，则以据因 r 拒绝 promise
                 reject(r);
             }) 
-        } else {
+        } else {// 如果 then 不是函数，以 x 为参数执行 promise
             resolve(x);
         }
     } catch (e) {
         // 如果取 x.then 的值时抛出错误 e ，则以 e 为据因拒绝 promise
+        // 如果调用 then 方法抛出了异常 e：
+        // 如果 resolvePromise 或 rejectPromise 已经被调用，则忽略之
         if (executed) return;
         executed = true;
+        // 否则以 e 为据因拒绝 promise
         reject(e);
     }
   }else {  
@@ -203,11 +211,11 @@ Promise.prototype.catch = function(onRejected) {
 
 Promise.prototype.finally = function(fn) {
   return this.then(function(value) {
-      return Promise.resolve(value).then(function() {
+      return Promise.resolve(fn()).then(function() {
           return value;
       });
   }, function(error) {
-      return Promise.resolve(reason).then(function() {
+      return Promise.resolve(fn()).then(function() {
           throw error;
       });
   });
@@ -228,17 +236,18 @@ Promise.all = function(promiseArr) {
       if (length === 0) {
           return resolve(result);
       }
+      promiseArr.forEach(function(promise, index) {
+        Promise.resolve(promise).then(function(value){
+          count++;
+          result[index] = value;
+          if(count === length) {
+            resolve(result);
+          }
+        }, function(reason){
+          reject(reason);
+        });
+      });
 
-      for (let item of promiseArr) {
-          Promise.resolve(item).then(function(data) {
-              result[count++] = data;
-              if (count === length) {
-                  resolve(result);
-              }
-          }, function(reason) {
-              reject(reason);
-          });
-      }
   });
 }
 
@@ -319,8 +328,6 @@ Promise.allSettled = function(promises) {
     });
 }
 
-
-
 // 使用 Promise.all 实现
 Promise.allSettled2 = function(promises) {
     // 也可以使用扩展运算符将 Iterator 转换成数组
@@ -332,34 +339,6 @@ Promise.allSettled2 = function(promises) {
       return { status: 'rejected', reason: error }
     })));
 };
-
-Promise.allSettled3 = function(promiseArr) {
-  return new Promise(function(resolve) {
-    const length = promiseArr.length;
-    const result = [];
-    let count = 0;
-
-    if (length === 0) {
-      return resolve(result);
-    } else {
-      for (let item of promiseArr) {
-        Promise.resolve(item).then((value) => {
-            result[count++] = { status: 'fulfilled', value: value };
-            if (count === length) {
-                return resolve(result);
-            }
-        }, (reason) => {
-            result[count++] = { status: 'rejected', reason: reason };
-            if (count === length) {
-                return resolve(result);
-            }
-        });
-      }
-    }
-  });
-}
-
-
 
 //在手写的promiseXXX.js添加以下代码，其中改成自己定义promise.js名字
 Promise.defer = Promise.deferred = function(){
