@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <link rel="icon" href="<%= BASE_URL %>favicon.ico">
+    <title><%= htmlWebpackPlugin.options.title %></title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.7.14/dist/vue.js"></script>
+  </head>
+  <body>
+    <noscript>
+      <strong>We're sorry but <%= htmlWebpackPlugin.options.title %> doesn't work properly without JavaScript enabled. Please enable it to continue.</strong>
+    </noscript>
+    <div id="app">
+       <!-- <div>{{ a }}</div> -->
+    </div>
+    <!-- built files will be auto injected -->
+    
+  </body>
+  <!-- <script>
+      const vm = new Vue({
+        el: '#app',
+        data: {
+          a: 'hello world',
+        },
+      })
+  </script> -->
+  <!-- <script>
+    const vm = new Vue({
+      el: '#app',
+      name: 'App',
+      data: () => ({
+        a: 'hello world!!!',
+      }),
+      render() {
+        const {_c, _v, _s, a} = this
+        //return createElement('div', [createTextNode(toString(a))])
+        return  _c('div',[_v(_s(a))])
+      }
+  })
+  </script> -->
+</html>
