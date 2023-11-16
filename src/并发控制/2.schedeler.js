@@ -1,3 +1,5 @@
+ //Js 实现一个带并发限制的异步调度器Scheduler，保证同时运行的任务最多有2个。
+
 
 /**
  *  同一时间并行执行 parallelCount个任务
@@ -11,7 +13,7 @@ function timeout(ms) {
   });
 }
 
-class SuperTask {
+class Scheluler {
   constructor(parallelCount=2) {
     this.parallelCount=parallelCount;
     this.task=[];
@@ -40,14 +42,19 @@ class SuperTask {
     }
   }
 }
-let superTask = new SuperTask();
+let scheluler = new Scheluler();
 
 function addTask(time,name) {
-  superTask.add(()=>timeout(time)).then(()=>console.log(`任务${name}完成`));
+  scheluler.add(()=>timeout(time)).then(()=>console.log(`任务${name}完成`));
 }
 
-addTask(10000,1); // 10000ms后输出:任务1完成
-addTask(5000,2);  // 5000ms后输出:任务1完成
-addTask(3000,3);  // 8000ms后输出:任务1完成
-addTask(4000,4);  // 12000ms后输出:任务1完成
-addTask(5000,5);  // 15000ms后输出:任务1完成
+addTask(1000,1); 
+addTask(500,2);  
+addTask(300,3);  
+addTask(400,4);
+
+
+// 任务2完成
+// 任务3完成
+// 任务1完成
+// 任务4完成
