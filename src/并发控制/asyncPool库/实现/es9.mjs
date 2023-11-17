@@ -1,3 +1,7 @@
+
+
+//在有限的并发池中运行多个承诺返回和异步函数。一旦其中一个承诺被拒绝，它就会立即拒绝。它会尽快调用迭代器函数（在并发限制下）。它返回一个异步迭代器，一旦 Promise 完成（在并发限制下），该迭代器就会产生。
+
 async function* asyncPool(concurrency, iterable, iteratorFn) {
   const executing = new Set();
   async function consume() {
@@ -22,7 +26,12 @@ async function* asyncPool(concurrency, iterable, iteratorFn) {
   }
 }
 
-const timeout = ms => new Promise(resolve => setTimeout(() => resolve(ms), ms));
+const timeout = ms => new Promise((resolve,reject) => setTimeout(() => {
+  if(ms===5000) {
+    reject('timeout')
+  }
+  resolve(ms)
+}, ms));
 
 for await (const ms of asyncPool(2, [1000, 5000, 3000, 2000], timeout)) {
   console.log(ms);
