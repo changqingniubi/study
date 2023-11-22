@@ -12,9 +12,23 @@
     "promises-aplus-tests": "^2.1.2"
   },
   "dependencies": {
+    "aggregate-error": "^5.0.0",
     "co": "^4.6.0",
     "core-js": "^3.23.3",
+    "delay": "^6.0.0",
+    "got": "^13.0.0",
     "js-csp": "^1.0.1",
+    "p-all": "^5.0.0",
+    "p-filter": "^3.0.0",
+    "p-forever": "^3.0.1",
+    "p-map": "^6.0.0",
+    "p-pipe": "^4.0.0",
+    "p-queue": "^7.4.1",
+    "p-race": "^3.1.0",
+    "p-reduce": "^3.0.0",
+    "p-series": "^3.0.0",
+    "p-times": "^4.0.0",
+    "p-waterfall": "^3.0.0",
     "thunkify": "^2.1.2",
     "tiny-async-pool": "^2.1.0"
   }
