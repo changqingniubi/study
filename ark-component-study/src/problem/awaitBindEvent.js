@@ -16,15 +16,15 @@ export const Test = () => {
     return proxy
    }
 
-   async function bindEvent() {
+  
+  useEffect(()=>{
+    async function bindEvent() {
       let btn=getElement('#aaa')
       while(1){
           await btn.awaitClick;
           console.log('按钮被点击了')
       }
-   }
-  
-  useEffect(()=>{
+    }
     bindEvent()
   },[])
 

@@ -8,6 +8,10 @@ import MyTabs from './components/Tabs'
 
 import  Test from "./problem/awaitBindEvent"
 
+import DemoTab from './compose/DemoTab'
+
+
+
 function App() {
   return (
     <div className="App">
@@ -18,6 +22,7 @@ function App() {
         <div>
           <h1>测试</h1>
           <Test></Test>
+          <DemoTab></DemoTab>
         </div>
     </div>
   );
