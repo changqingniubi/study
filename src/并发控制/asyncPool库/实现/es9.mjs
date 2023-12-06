@@ -27,9 +27,6 @@ async function* asyncPool(concurrency, iterable, iteratorFn) {
 }
 
 const timeout = ms => new Promise((resolve,reject) => setTimeout(() => {
-  if(ms===5000) {
-    reject('timeout')
-  }
   resolve(ms)
 }, ms));
 
