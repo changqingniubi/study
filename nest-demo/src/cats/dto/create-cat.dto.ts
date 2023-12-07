@@ -15,8 +15,8 @@ export class CreateCatDto {
   @IsString()
   name: string;
 
-  @IsInt()
-  age: number;
+  @IsString()
+  age: string;
 
   @IsString()
   breed: string;
