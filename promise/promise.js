@@ -350,3 +350,7 @@ Promise.defer = Promise.deferred = function(){
   return dfd;
 }
 module.exports =  Promise;
+
+
+
+

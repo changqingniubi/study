@@ -4,7 +4,7 @@
   "description": "",
   "main": "bind.js",
   "scripts": {
-    "test": "promises-aplus-tests ./src/promise/promise.js"
+    "test": "promises-aplus-tests ./promise/promise.js"
   },
   "author": "",
   "license": "ISC",
@@ -29,6 +29,7 @@
     "p-series": "^3.0.0",
     "p-times": "^4.0.0",
     "p-waterfall": "^3.0.0",
+    "semaphore": "^1.1.0",
     "thunkify": "^2.1.2",
     "tiny-async-pool": "^2.1.0"
   }

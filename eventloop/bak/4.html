@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <button id="btn">click</button>
+    <script>
+        let btn = document.getElementById('btn');
+        let click1 = () => {
+
+            console.log('L1');
+            Promise.resolve().then(() => { console.log('M1') });
+        }
+        btn.addEventListener('click', click1);
+        let click2 = () => {
+
+            console.log('L2');
+            Promise.resolve().then(() => { console.log('M2') });
+        };
+        btn.addEventListener('click', click2);
+        // 输出 L1 M1 L2 M2
+
+        //什么进入检查点，清空微任务 当前调栈清空的时候
+        
+        // 如果 用下面的代码触发  输出  L1 L2 a M1 M2
+        //btn.click();//==> click1();click2();
+        //console.log('a');
+       
+
+    </script>
+</body>
+
+</html>
