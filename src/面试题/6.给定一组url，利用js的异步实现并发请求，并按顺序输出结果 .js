@@ -1,4 +1,4 @@
-function printOrder(urlArr) {
+function printOrder(urlArr,callback) {
     Promise.all(urlArr.map(url => new Promise(function (resolve, reject) {
         let xhr = new XMLHttpRequest;
         xhr.open('GET', url, true);
