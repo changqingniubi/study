@@ -31,6 +31,7 @@ let obj = {
     pattern: /^reg$/,
     math: Math,
     json: JSON,
+    [Symbol('1')]: 1  // Symbol作为key
     //document: document,
     //window: window
 }
@@ -93,7 +94,7 @@ function getType(source) {
 
 let cloned = clone(obj);
 console.log(cloned);
-console.log(obj.home === cloned.home);
-console.log(obj.set === cloned.set);
-console.log(obj.map === cloned.map);
+// console.log(obj.home === cloned.home);
+// console.log(obj.set === cloned.set);
+// console.log(obj.map === cloned.map);
 console.log(obj.flag === cloned.flag);
